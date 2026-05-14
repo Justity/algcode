@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WS Test</title>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <pre id="log"></pre>
+
+    <script>
+        const log = document.getElementById("log");
+        const ws = new WebSocket("ws://127.0.0.1:8000/ws");
+
+        ws.onopen = () => {
+            log.textContent += "CONNECTED\n";
+
+            setInterval(() => {
+                ws.send("ping");
+            }, 1000);
+        };
+
+        ws.onmessage = (event) => {
+            log.textContent += event.data + "\n";
+        };
+
+        ws.onerror = (err) => {
+            log.textContent += "ERROR\n";
+            console.error(err);
+        };
+
+        ws.onclose = () => {
+            log.textContent += "DISCONNECTED\n";
+        };
+    </script>
+</body>
+</html>
